@@ -4,12 +4,15 @@ import CircularProgressBar from "../components/CircularProgressBar";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { groupBy } from "lodash";
+import Loading from "../components/Loading";
 
 const MovieDetail = () => {
   const { id } = useParams();
   const [movieInfo, setMovieInfo] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(
       `https://api.themoviedb.org/3/movie/${id}?append_to_response=release_dates,credits`,
       {
@@ -19,11 +22,18 @@ const MovieDetail = () => {
           Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0ZmI1NmJmNWM4NzY3Y2JmYzNkNGJiOGVmZmNhMzhlYyIsIm5iZiI6MTczOTA5NTc3NS45MTIsInN1YiI6IjY3YTg3ZWRmMjI4N2YzYjkxN2M4YmM1NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.f6ZCCxRP74Fm4sFXWuSuGvq6t4S0MzUSvHC3aS0ysVY`,
         },
       },
-    ).then(async (res) => {
-      const data = await res.json();
-      console.log({ data });
-      setMovieInfo(data);
-    });
+    )
+      .then(async (res) => {
+        const data = await res.json();
+        console.log({ data });
+        setMovieInfo(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, [id]);
 
   const certification = (
@@ -43,7 +53,9 @@ const MovieDetail = () => {
   const voteAverage = movieInfo.vote_average
     ? Math.round(movieInfo.vote_average * 10)
     : 0;
-
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <div className="relative overflow-hidden text-white">
       <img

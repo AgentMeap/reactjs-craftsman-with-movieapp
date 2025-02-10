@@ -1,4 +1,3 @@
-import Header from "../components/Header";
 import FeatureMovie from "../components/FeatureMovie/FeatureMovie";
 import MediaList from "../components/MediaList";
 import { TOP_RATED_TABS, TRENDING_TABS } from "../libs/constants";
@@ -6,7 +5,6 @@ import { TOP_RATED_TABS, TRENDING_TABS } from "../libs/constants";
 function HomePage() {
   return (
     <div>
-      <Header />
       <FeatureMovie />
       <MediaList title="Trending" tabs={TRENDING_TABS} />
       <MediaList title="Top Rated" tabs={TOP_RATED_TABS} />
