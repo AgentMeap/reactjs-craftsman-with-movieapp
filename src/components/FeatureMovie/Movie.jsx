@@ -16,7 +16,7 @@ const Movie = (props) => {
     <div>
       <img
         src={`https://image.tmdb.org/t/p/original${backdrop_path}`}
-        className="aspect-video brightness-50"
+        className="aspect-video w-full brightness-50"
       />
       <div className="absolute bottom-[10%] left-8 w-1/2 sm:w-1/3">
         <p className="mb-2 font-bold sm:text-[2vw]">{title}</p>
@@ -33,10 +33,10 @@ const Movie = (props) => {
           </div>
         </div>
         <div className="mt-4 flex gap-2">
-          <button className="text-10 rounded-md bg-white px-4 py-2 text-black lg:text-lg">
+          <button className="rounded-md bg-white px-4 py-2 text-10 text-black lg:text-lg">
             <FontAwesomeIcon icon={faPlay} /> Trailer
           </button>
-          <button className="text-10 rounded-md bg-slate-300/35 px-4 py-2 lg:text-lg">
+          <button className="rounded-md bg-slate-300/35 px-4 py-2 text-10 lg:text-lg">
             View Detail
           </button>
         </div>

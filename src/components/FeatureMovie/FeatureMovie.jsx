@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Movie from "./Movie";
 import PaginateIndicator from "./PaginateIndicator";
+import "./FeatureMovie.css";
 
 const FeatureMovie = () => {
   const [movies, setMovies] = useState([]); //Empty Array
@@ -24,30 +25,30 @@ const FeatureMovie = () => {
 
   console.log(movies);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveMovieId((prevId) => {
-        const currentIndex = movies.findIndex((movie) => movie.id === prevId);
-        return movies[(currentIndex + 1) % movies.length].id;
-      });
-    }, 5000);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setActiveMovieId((prevId) => {
+  //       const currentIndex = movies.findIndex((movie) => movie.id === prevId);
+  //       return movies[(currentIndex + 1) % movies.length].id;
+  //     });
+  //   }, 5000);
 
-    return () => clearInterval(interval);
-  }, [movies]);
+  //   return () => clearInterval(interval);
+  // }, [movies]);
 
-  const handleNext = () => {
-    setActiveMovieId((prevId) => {
-      const currentIndex = movies.findIndex((movie) => movie.id === prevId);
-      return movies[(currentIndex + 1) % movies.length].id;
-    });
-  };
+  // const handleNext = () => {
+  //   setActiveMovieId((prevId) => {
+  //     const currentIndex = movies.findIndex((movie) => movie.id === prevId);
+  //     return movies[(currentIndex + 1) % movies.length].id;
+  //   });
+  // };
 
-  const handlePrev = () => {
-    setActiveMovieId((prevId) => {
-      const currentIndex = movies.findIndex((movie) => movie.id === prevId);
-      return movies[(currentIndex - 1 + movies.length) % movies.length].id;
-    });
-  };
+  // const handlePrev = () => {
+  //   setActiveMovieId((prevId) => {
+  //     const currentIndex = movies.findIndex((movie) => movie.id === prevId);
+  //     return movies[(currentIndex - 1 + movies.length) % movies.length].id;
+  //   });
+  // };
 
   return (
     <div className="relative text-white">
@@ -75,6 +76,33 @@ const FeatureMovie = () => {
 //               <Movie key={movie.id} data={movie} />
 //             ))}
 //           <button onClick={handleNext}>Next</button>
+//         </div>
+//       )}
+//       <PaginateIndicator
+//         movies={movies}
+//         activeMovieId={activeMovieId}
+//         setActiveMovieId={setActiveMovieId}
+//       />
+//     </div>
+//   );
+// };
+//   return (
+//     <div className="relative text-white">
+//       {movies.length > 0 && (
+//         <div className="slider">
+//           <button onClick={handlePrev} className="slider-button left">
+//             Prev
+//           </button>
+//           <div className="slider-content">
+//             {movies
+//               .filter((movie) => movie.id === activeMovieId)
+//               .map((movie) => (
+//                 <Movie key={movie.id} data={movie} />
+//               ))}
+//           </div>
+//           <button onClick={handleNext} className="slider-button right">
+//             Next
+//           </button>
 //         </div>
 //       )}
 //       <PaginateIndicator
