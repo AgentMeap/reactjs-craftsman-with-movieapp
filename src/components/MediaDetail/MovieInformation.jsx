@@ -13,7 +13,7 @@ const MovieInformation = ({ movieInfo = {} }) => {
         {(movieInfo.origin_country || []).map((countryCode) => (
           <img
             key={countryCode.iso_3166_1}
-            src={`https://flagcdn.com/48x36/${countryCode.toLowerCase()}.png`}
+            src={`https://flagcdn.com/${countryCode.toLowerCase()}.svg`}
             className="mr-1 mt-1 w-[1.4vw]"
           />
         ))}
@@ -24,12 +24,7 @@ const MovieInformation = ({ movieInfo = {} }) => {
       </div>
       <div className="mb-4">
         <p className="font-bold">Budget</p>
-        <p>
-          {new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-          }).format(movieInfo.budget)}
-        </p>
+        <p>{currencyFormatter(movieInfo.budget)}</p>
       </div>
       <div className="mb-4">
         <p className="font-bold">Revenue</p>
