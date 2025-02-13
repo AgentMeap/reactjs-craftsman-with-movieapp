@@ -5,12 +5,13 @@ import Loading from '@components/Loading';
 import RelatedMediaList from '@components/MediaDetail/RelatedMediaList';
 import useFetch from '@components/hooks/useFetch';
 import TVShowInformation from '@components/MediaDetail/TVShowInformation';
+import SeasonList from '@components/MediaDetail/SeasonList';
 
 const TVShowDetail = () => {
   const { id } = useParams();
 
   const { data: tvInfo, isLoading } = useFetch({
-    url: `/tv/${id}?append_to_response=content_ratings,aggregate_credits`,
+    url: `/tv/${id}?append_to_response=content_ratings,aggregate_credits,videos`,
   });
 
   const { data: recommendationsResponse, isLoading: isRecommendationLoading } =
@@ -50,6 +51,11 @@ const TVShowDetail = () => {
           overview={tvInfo.overview}
           certification={certification}
           crews={crews}
+          trailerVideoKey={
+            (tvInfo.videos?.results || []).find(
+              (video) => video.type === 'Trailer',
+            )?.key
+          }
         />
         <div className="mx-auto flex max-w-screen-md gap-6 px-6 py-10 sm:gap-8">
           <div className="flex-[2]">
@@ -60,6 +66,7 @@ const TVShowDetail = () => {
                 episodeCount: cast.roles[0]?.episode_count,
               }))}
             />
+            <SeasonList seasons={(tvInfo.seasons || []).reverse()} />
             <RelatedMediaList
               mediaList={relatedTVShow}
               isLoading={isRecommendationLoading}

@@ -5,32 +5,38 @@ const DEFAULT_HEADERS = {
   Authorization: `Bearer ${import.meta.env.VITE_API_TOKEN}`,
 };
 
-export default function useFetch({ url = '', method = 'GET', header = {} }) {
+export default function useFetch(
+  { url = '', method = 'GET', header = {} },
+  { enabled } = { enabled: true },
+) {
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setIsLoading(true);
-    fetch(`${import.meta.env.VITE_API_HOST}${url}`, {
-      method,
-      headers: {
-        ...DEFAULT_HEADERS,
-        ...header,
-      },
-    })
-      .then(async (res) => {
-        const data = await res.json();
-        console.log({ data });
-        setData(data);
+    if (enabled) {
+      setIsLoading(true);
+      fetch(`${import.meta.env.VITE_API_HOST}${url}`, {
+        method,
+        headers: {
+          ...DEFAULT_HEADERS,
+          ...header,
+        },
       })
-      .catch((err) => {
-        console.error(err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+        .then(async (res) => {
+          const data = await res.json();
+          console.log({ data });
+          setData(data);
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [url, method, JSON.stringify(header)]);
+  }, [url, method, JSON.stringify(header), enabled]);
 
   return { isLoading, data };
 }

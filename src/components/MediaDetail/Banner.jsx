@@ -3,6 +3,7 @@ import CircularProgressBar from '../CircularProgressBar';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import { groupBy } from 'lodash';
 import ImageComponent from '@components/Image';
+import { useModalContext } from '@context/ModalProvider';
 
 const Banner = ({
   title,
@@ -14,27 +15,19 @@ const Banner = ({
   releaseDate,
   point = 0,
   overview,
+  trailerVideoKey,
 }) => {
-  // const certification = (
-  //   (mediaInfo?.release_dates?.results || []).find(
-  //     (result) => result.iso_3166_1 === 'US',
-  //   )?.release_dates || []
-  // ).find((releaseDate) => releaseDate.certification)?.certification;
+  const { openPopup } = useModalContext();
 
-  // const crews = (mediaInfo?.credits?.crew || [])
-  //   .filter((crew) => ['Director', 'Writer', 'Screenplay'].includes(crew.job))
-  //   .map((crew) => ({ id: crew.id, job: crew.job, name: crew.name }));
-
-  console.log(crews);
+  if (!title) return null;
   const groupedCrews = groupBy(crews, 'job');
   console.log(groupedCrews);
 
-  // const voteAverage = mediaInfo.vote_average
-  //   ? Math.round(mediaInfo.vote_average * 10)
-  //   : 0;
   return (
-    <div className="relative overflow-hidden text-white shadow-sm shadow-slate-800">
+    <div className="relative overflow-hidden bg-black text-white shadow-sm shadow-slate-800">
       <ImageComponent
+        width={1200}
+        height={800}
         src={`https://image.tmdb.org/t/p/original${backdropPath}`}
         className="absolute inset-0 aspect-video w-full brightness-[.2]"
       />
@@ -59,20 +52,23 @@ const Banner = ({
             <div className="flex items-center gap-2">
               <CircularProgressBar
                 percent={Math.round(point * 10)}
-                // strokeColor={
-                //   mediaInfo.vote_average >= 7
-                //     ? 'green'
-                //     : mediaInfo.vote_average >= 5
-                //       ? 'orange'
-                //       : 'red'
-                // }
                 size={3.5}
                 strokeWidth={0.3}
               />
               {''}
               Rating
             </div>
-            <button>
+            <button
+              onClick={() => {
+                openPopup(
+                  <iframe
+                    src={`https://www.youtube.com/embed/${trailerVideoKey}`}
+                    title="Trailer"
+                    className="aspect-video w-[50vw]"
+                  />,
+                );
+              }}
+            >
               <FontAwesomeIcon icon={faPlay} className="mr-1" />
               Trailer
             </button>

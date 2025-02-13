@@ -10,7 +10,7 @@ const MovieDetail = () => {
   const { id } = useParams();
 
   const { data: movieInfo, isLoading } = useFetch({
-    url: `/movie/${id}?append_to_response=release_dates,credits`,
+    url: `/movie/${id}?append_to_response=release_dates,credits,videos`,
   });
 
   const { data: recommendationsResponse, isLoading: isRelatedMoviesLoading } =
@@ -46,6 +46,11 @@ const MovieDetail = () => {
           overview={movieInfo.overview}
           certification={certification}
           crews={crews}
+          trailerVideoKey={
+            (movieInfo.videos?.results || []).find(
+              (video) => video.type === 'Trailer',
+            )?.key
+          }
         />
         <div className="mx-auto flex max-w-screen-md gap-6 px-6 py-10 sm:gap-8">
           <div className="flex-[2]">

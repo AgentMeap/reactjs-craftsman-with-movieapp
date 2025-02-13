@@ -1,17 +1,18 @@
 import ImageComponent from '@components/Image';
+import { useModalContext } from '@context/ModalProvider';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const Movie = (props) => {
+  const {
+    data: { id, backdrop_path, title, release_date, overview },
+    trailerVideoKey,
+  } = props;
+  const { openPopup } = useModalContext();
+
   console.log({ props });
-  const { data } = props;
-
-  if (!data) {
-    return <div>No movie data available</div>;
-  }
-
-  const { backdrop_path, title, release_date, overview } = data;
 
   return (
     <div>
@@ -24,9 +25,6 @@ const Movie = (props) => {
       <div className="absolute bottom-[10%] left-8 w-1/2 sm:w-1/3">
         <p className="mb-2 font-bold sm:text-[2vw]">{title}</p>
         <div>
-          {/* <p className="mb-1 inline-block border border-gray-400 p-1 text-gray-400">
-            PG13
-          </p> */}
           <p className="text-[1.2vw]">{release_date}</p>
         </div>
         <div>
@@ -36,12 +34,25 @@ const Movie = (props) => {
           </div>
         </div>
         <div className="mt-4 flex gap-2">
-          <button className="rounded-md bg-white px-4 py-2 text-10 text-black lg:text-lg">
+          <button
+            onClick={() => {
+              openPopup(
+                <iframe
+                  src={`https://www.youtube.com/embed/${trailerVideoKey}`}
+                  title="Trailer"
+                  className="aspect-video w-[50vw]"
+                />,
+              );
+            }}
+            className="rounded-md bg-white px-4 py-2 text-10 text-black lg:text-lg"
+          >
             <FontAwesomeIcon icon={faPlay} /> Trailer
           </button>
-          <button className="rounded-md bg-slate-300/35 px-4 py-2 text-10 lg:text-lg">
-            View Detail
-          </button>
+          <Link to={`/movie/${id}`}>
+            <button className="rounded-md bg-slate-300/35 px-4 py-2 text-10 lg:text-lg">
+              View Detail
+            </button>
+          </Link>
         </div>
       </div>
     </div>
@@ -55,10 +66,12 @@ Movie.propTypes = {
     release_date: PropTypes.string,
     overview: PropTypes.string,
   }),
+  trailerVideoKey: PropTypes.string,
 };
 
 Movie.defaultProps = {
   data: null,
+  trailerVideoKey: '',
 };
 
 export default Movie;
