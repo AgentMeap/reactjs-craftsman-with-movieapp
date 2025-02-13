@@ -33,10 +33,10 @@ const Banner = ({
   //   ? Math.round(mediaInfo.vote_average * 10)
   //   : 0;
   return (
-    <div className="shadhow-slate-800 relative overflow-hidden text-white shadow-sm">
+    <div className="relative overflow-hidden text-white shadow-sm shadow-slate-800">
       <ImageComponent
         src={`https://image.tmdb.org/t/p/original${backdropPath}`}
-        className="absolute inset-0 brightness-[.2]"
+        className="absolute inset-0 aspect-video w-full brightness-[.2]"
       />
       <div className="relative mx-auto flex max-w-screen-xl gap-6 px-6 py-8 lg:gap-8">
         <div className="flex-1">
