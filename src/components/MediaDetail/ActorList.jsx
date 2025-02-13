@@ -1,5 +1,5 @@
-import { useState } from "react";
-import ActorInfo from "./ActorInfo";
+import { useState } from 'react';
+import ActorInfo from './ActorInfo';
 
 const ActorList = ({ actors = [] }) => {
   const [isShowMore, setIsShowMore] = useState(false);
@@ -16,6 +16,7 @@ const ActorList = ({ actors = [] }) => {
             name={actor.name}
             character={actor.character}
             profilePath={actor.profile_path}
+            episodeCount={actor.episodeCount}
           />
         ))}
       </div>
@@ -23,7 +24,7 @@ const ActorList = ({ actors = [] }) => {
         className="mt-1 cursor-pointer"
         onClick={() => setIsShowMore(!isShowMore)}
       >
-        {isShowMore ? "Show Less" : "Show More"}
+        {isShowMore ? 'Show Less' : 'Show More'}
       </p>
     </div>
   );

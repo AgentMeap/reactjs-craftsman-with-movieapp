@@ -19,6 +19,15 @@ const MovieDetail = () => {
     });
 
   const relatedMovies = recommendationsResponse.results || [];
+  const certification = (
+    (movieInfo?.release_dates?.results || []).find(
+      (result) => result.iso_3166_1 === 'US',
+    )?.release_dates || []
+  ).find((releaseDate) => releaseDate.certification)?.certification;
+
+  const crews = (movieInfo?.credits?.crew || [])
+    .filter((crew) => ['Director', 'Writer', 'Screenplay'].includes(crew.job))
+    .map((crew) => ({ id: crew.id, job: crew.job, name: crew.name }));
 
   if (isLoading) {
     return <Loading />;
@@ -27,7 +36,17 @@ const MovieDetail = () => {
   return (
     <div className="bg-black text-[1.2vw] text-white">
       <div>
-        <Banner mediaInfo={movieInfo} />
+        <Banner
+          title={movieInfo.title}
+          backdropPath={movieInfo.backdrop_path}
+          posterPath={movieInfo.poster_path}
+          releaseDate={movieInfo.release_date}
+          genres={movieInfo.genres}
+          point={movieInfo.vote_average}
+          overview={movieInfo.overview}
+          certification={certification}
+          crews={crews}
+        />
         <div className="mx-auto flex max-w-screen-md gap-6 px-6 py-10 sm:gap-8">
           <div className="flex-[2]">
             <ActorList actors={movieInfo.credits?.cast || []} />
