@@ -1,3 +1,4 @@
+import { TOP_RATED_TABS, TRENDING_TABS } from '@libs/constants';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 const ModalContext = createContext();
@@ -10,6 +11,12 @@ export const useModalContext = () => {
 const ModalProvider = ({ children }) => {
   const [isShowing, setIsShowing] = useState(false);
   const [content, setContent] = useState();
+  const [currentTabTrending, setCurrentTabTrending] = useState(
+    TRENDING_TABS[0].id,
+  );
+  const [currentTabTopRated, setCurrentTabTopRated] = useState(
+    TOP_RATED_TABS[0].id,
+  );
 
   useEffect(() => {
     if (isShowing) {
@@ -25,7 +32,15 @@ const ModalProvider = ({ children }) => {
   };
 
   return (
-    <ModalContext.Provider value={{ openPopup }}>
+    <ModalContext.Provider
+      value={{
+        openPopup,
+        currentTabTrending,
+        setCurrentTabTrending,
+        currentTabTopRated,
+        setCurrentTabTopRated,
+      }}
+    >
       {children}
       {isShowing && (
         <div className="fixed inset-0">

@@ -1,11 +1,9 @@
+import PropTypes from 'prop-types';
 import useFetch from '@components/hooks/useFetch';
 import MovieCard from '@components/MovieCard';
-import { useState } from 'react';
 
-const MediaList = ({ title, tabs }) => {
-  const [activeTabId, setActiveTabId] = useState(tabs[0]?.id);
-
-  const url = tabs.find((tab) => tab.id === activeTabId)?.url;
+const MediaList = ({ title, tabs, selectedTab, onTabChange }) => {
+  const url = tabs.find((tab) => tab.id === selectedTab)?.url;
   const { data } = useFetch({ url });
   const mediaList = (data.results || []).slice(0, 12);
 
@@ -17,8 +15,10 @@ const MediaList = ({ title, tabs }) => {
           {tabs.map((tab) => (
             <li
               key={tab.id}
-              className={`cursor-pointer rounded px-2 py-1 ${tab.id === activeTabId ? 'bg-white text-black' : ''}`}
-              onClick={() => setActiveTabId(tab.id)}
+              className={`cursor-pointer rounded px-2 py-1 ${
+                selectedTab === tab.id ? 'bg-white text-black' : ''
+              }`}
+              onClick={() => onTabChange(tab.id)}
             >
               {tab.name}
             </li>
@@ -34,11 +34,25 @@ const MediaList = ({ title, tabs }) => {
             releaseDate={media.release_date || media.first_air_date}
             poster={media.poster_path}
             point={media.vote_average}
-            mediaType={media.media_type || activeTabId}
+            mediaType={media.media_type || selectedTab}
           />
         ))}
       </div>
     </div>
   );
 };
+
+MediaList.propTypes = {
+  title: PropTypes.string.isRequired,
+  tabs: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  selectedTab: PropTypes.string.isRequired,
+  onTabChange: PropTypes.func.isRequired,
+};
+
 export default MediaList;
