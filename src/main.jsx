@@ -1,13 +1,16 @@
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-
-import TVShowDetail from '@pages/TVShowDetail';
 import RootLayout from '@pages/RootLayout';
-import HomePage from '@pages/HomePage';
-import MovieDetail from '@pages/MovieDetail';
 import ModalProvider from '@context/ModalProvider';
-import PeoplePage from '@pages/PeoplePage';
+import { lazy } from 'react';
+import SearchPage from '@pages/SearchPage';
+
+//Lazy import
+const MovieDetail = lazy(() => import('@pages/MovieDetail'));
+const TVShowDetail = lazy(() => import('@pages/TVShowDetail'));
+const HomePage = lazy(() => import('@pages/HomePage'));
+const PeoplePage = lazy(() => import('@pages/PeoplePage'));
 
 const router = createBrowserRouter([
   {
@@ -29,7 +32,7 @@ const router = createBrowserRouter([
         path: '/people/:id',
         element: <PeoplePage />,
         loader: async ({ params }) => {
-          const response = await fetch(
+          const res = await fetch(
             `https://api.themoviedb.org/3/person/${params.id}?append_to_response=combined_credits`,
             {
               headers: {
@@ -38,8 +41,12 @@ const router = createBrowserRouter([
               },
             },
           );
-          return response;
+          return res;
         },
+      },
+      {
+        path: '/search',
+        element: <SearchPage />,
       },
     ],
   },

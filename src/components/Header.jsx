@@ -1,6 +1,6 @@
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
@@ -18,7 +18,12 @@ const Header = () => {
         </a>
       </div>
       <div>
-        <FontAwesomeIcon icon={faMagnifyingGlass} className="cursor-pointer" />
+        <Link to={`/search`}>
+          <FontAwesomeIcon
+            icon={faMagnifyingGlass}
+            className="cursor-pointer"
+          />
+        </Link>
       </div>
     </header>
   );
