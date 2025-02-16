@@ -1,14 +1,17 @@
 import ImageComponent from '@components/Image';
+import { Link } from 'react-router-dom';
 
-const ActorInfo = ({ name, character, profilePath, episodeCount }) => {
+const ActorInfo = ({ id, name, character, profilePath, episodeCount }) => {
   return (
-    <div className="rounded border border-slate-300 bg-black shadow-sm">
+    <Link
+      to={`/people/${id}`}
+      className="rounded border border-slate-300 bg-black shadow-sm"
+    >
       <ImageComponent
-        className="rounded"
+        className="w-full rounded" // Ensure the image takes the full width of the container
         src={
-          profilePath
-            ? `https://media.themoviedb.org/t/p/w138_and_h175_face${profilePath}`
-            : '/ActorNoImage.svg'
+          profilePath &&
+          `https://media.themoviedb.org/t/p/original${profilePath}`
         }
         width={138}
         height={175}
@@ -22,7 +25,8 @@ const ActorInfo = ({ name, character, profilePath, episodeCount }) => {
           </p>
         )}
       </div>
-    </div>
+    </Link>
   );
 };
+
 export default ActorInfo;
